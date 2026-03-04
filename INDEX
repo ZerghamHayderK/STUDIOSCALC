@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayut Studios | Project Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #37b36f;
+            --bg-dark: #050505;
+            --panel-bg: rgba(20, 20, 20, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+            gap: 20px;
+        }
+
+        /* --- ULTRA-FINE STAR ENGINE --- */
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%); }
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0; filter: blur(0.2px); animation: glisten var(--duration) infinite ease-in-out; }
+        @keyframes glisten { 0%, 100% { opacity: 0.1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.2); } }
+
+        /* --- NARROW SIDEBAR --- */
+        .sidebar {
+            width: 240px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            border-radius: 30px;
+            height: calc(100vh - 40px);
+            box-sizing: border-box;
+        }
+
+        .section-title { color: var(--primary-green); font-size: 0.7rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; border-left: 3px solid var(--primary-green); padding-left: 10px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        label { font-size: 0.6rem; opacity: 0.6; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        input, select { background: rgba(0,0,0,0.6); border: 1px solid var(--glass-border); color: white; padding: 12px; border-radius: 12px; font-family: inherit; font-size: 0.85rem; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--primary-green); }
+
+        /* --- MAIN CONTENT AREA --- */
+        .main-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; }
+        .logo-text { font-size: 2.2rem; font-weight: 900; color: var(--primary-green); margin: 0; letter-spacing: -1px; }
+        .btn-download { background: var(--primary-green); color: black; border: none; padding: 14px 28px; border-radius: 14px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; transition: 0.3s; }
+
+        .card { background: var(--panel-bg); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 30px; padding: 30px; }
+        .builder-row { display: grid; grid-template-columns: 1.5fr 1.5fr 0.5fr 1fr; gap: 15px; align-items: flex-end; }
+        .btn-add { background: var(--primary-green); color: black; border: none; padding: 14px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; transition: 0.3s; }
+
+        /* --- QUOTE LIST --- */
+        .cur-btn { border: 1px solid var(--glass-border); background: transparent; color: white; padding: 8px 18px; border-radius: 10px; cursor: pointer; font-size: 0.7rem; font-weight: 900; }
+        .cur-btn.active { background: var(--primary-green); color: black; border-color: var(--primary-green); }
+        .quote-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 20px; border-radius: 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-remove { background: #ff4b4b; color: white; border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+
+        /* --- VALUATION TOTAL CARD --- */
+        .valuation-card {
+            background: linear-gradient(135deg, rgba(55, 179, 111, 0.2) 0%, rgba(0,0,0,0.4) 100%);
+            border: 2px solid var(--primary-green);
+            padding: 30px;
+            border-radius: 25px;
+            text-align: right;
+            margin-top: 10px;
+        }
+        .total-val { font-size: 2.5rem; font-weight: 900; font-family: 'Inter'; margin: 0; color: white; }
+        .sub-total-val { font-size: 1rem; opacity: 0.7; margin-top: 5px; font-weight: 400; }
+
+        #invoice-print-area { display: none; }
+        @media print {
+            body * { display: none !important; }
+            #invoice-print-area { display: block !important; background: white !important; color: black !important; padding: 40px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th { text-align: left; background: #f0f0f0; padding: 12px; border-bottom: 2px solid var(--primary-green); font-size: 10px; }
+            td { padding: 12px; border-bottom: 1px solid #eee; font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="starField"></div>
+
+    <aside class="sidebar">
+        <div class="input-group">
+            <div class="section-title">Snapshot Rates</div>
+            <p style="font-size:0.55rem; opacity:0.5; margin-top:-5px;">Rates are locked when item is added.</p>
+            <label>Margin (%)</label>
+            <input type="number" id="marginInput" value="7" step="0.5">
+        </div>
+        <div class="input-group">
+            <label>Discount (%)</label>
+            <input type="number" id="discountInput" value="0" step="0.5">
+        </div>
+        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--glass-border);">
+            <div class="section-title">Status</div>
+            <p id="status" style="font-size: 0.6rem; opacity: 0.5;">Connecting...</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <h1 class="logo-text">Bayut Studios</h1>
+            <button class="btn-download" onclick="window.print()">Download PDF</button>
+        </div>
+
+        <div class="card">
+            <div class="section-title" style="margin-bottom: 20px;">Quote Builder</div>
+            <div class="builder-row">
+                <div class="input-group">
+                    <label>Category</label>
+                    <select id="catSelect" onchange="updateProducts()"><option>Syncing...</option></select>
+                </div>
+                <div class="input-group">
+                    <label>Product</label>
+                    <select id="prodSelect"></select>
+                </div>
+                <div class="input-group">
+                    <label>Units</label>
+                    <input type="number" id="unitInput" value="1" min="1">
+                </div>
+                <button class="btn-add" onclick="addToQuote()">Add to Quote</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div class="section-title">Quote Summary</div>
+                <div style="display: flex; gap: 6px;">
+                    <button id="btn-PKR" class="cur-btn active" onclick="setCurrency('PKR')">PKR</button>
+                    <button id="btn-USD" class="cur-btn" onclick="setCurrency('USD')">USD</button>
+                    <button id="btn-SAR" class="cur-btn" onclick="setCurrency('SAR')">SAR</button>
+                    <button id="btn-AED" class="cur-btn" onclick="setCurrency('AED')">AED</button>
+                </div>
+            </div>
+            <div id="cartList"></div>
+
+            <div id="valuationBox" style="display:none;" class="valuation-card">
+                <div class="section-title" style="margin-bottom: 10px; border:none; padding:0;">Total Project Valuation</div>
+                <p id="mainTotal" class="total-val">PKR 0</p>
+                <p id="subTotals" class="sub-total-val"></p>
+            </div>
+        </div>
+    </main>
+
+    <div id="invoice-print-area">
+        <h1 style="color:#37b36f;">Bayut Studios Quotation</h1>
+        <table>
+            <thead><tr><th>Description</th><th>Qty</th><th>Margin</th><th>Disc.</th><th>PKR</th><th>SAR</th><th>AED</th></tr></thead>
+            <tbody id="print-rows"></tbody>
+        </table>
+        <div id="print-totals" style="margin-top:20px; text-align:right; font-weight:900; font-size:1.2rem;"></div>
+    </div>
+
+    <script>
+        const SHEET_ID = '1qvBKlYH7q4dXsu7tEh9OLnKSydfONNRzGa-xjUYLB0g';
+        const DATA_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+        let db = [], cart = [], activeCur = 'PKR';
+
+        function parseCell(cell) {
+            if (!cell) return 0;
+            let val = cell.f ? cell.f : String(cell.v);
+            return parseFloat(val.replace(/[^0-9.]/g, '')) || 0;
+        }
+
+        fetch(DATA_URL).then(r => r.text()).then(t => {
+            const data = JSON.parse(t.substr(47).slice(0, -2));
+            db = data.table.rows.map(r => {
+                const c = r.c;
+                return c[0] && c[1] ? { cat: c[0].v, name: c[1].v, bQty: parseCell(c[2]) || 1, pkr: parseCell(c[4]), usd: parseCell(c[5]), sar: parseCell(c[6]), aed: parseCell(c[7]) } : null;
+            }).filter(x => x);
+            const cats = [...new Set(db.map(i => i.cat))];
+            document.getElementById('catSelect').innerHTML = '<option value="">Select Category</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+            document.getElementById('status').innerText = "Live: Synchronized";
+        });
+
+        function updateProducts() {
+            const cat = document.getElementById('catSelect').value;
+            document.getElementById('prodSelect').innerHTML = db.filter(i => i.cat === cat).map(i => `<option value="${i.name}">${i.name}</option>`).join('');
+        }
+
+        function setCurrency(code) {
+            activeCur = code;
+            document.querySelectorAll('.cur-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + code).classList.add('active');
+            render();
+        }
+
+        function addToQuote() {
+            const name = document.getElementById('prodSelect').value;
+            const qty = parseInt(document.getElementById('unitInput').value) || 1;
+            const item = db.find(i => i.name === name);
+            
+            // CAPTURE MARGIN AND DISCOUNT AT THIS SPECIFIC MOMENT
+            const currentMargin = parseFloat(document.getElementById('marginInput').value) || 0;
+            const currentDiscount = parseFloat(document.getElementById('discountInput').value) || 0;
+
+            if(item) {
+                cart.push({ 
+                    ...item, 
+                    qty, 
+                    savedMargin: currentMargin, 
+                    savedDiscount: currentDiscount 
+                });
+                render();
+            }
+        }
+
+        function render() {
+            const list = document.getElementById('cartList');
+            const printList = document.getElementById('print-rows');
+            const valBox = document.getElementById('valuationBox');
+            
+            list.innerHTML = ''; printList.innerHTML = '';
+            let sums = { pkr: 0, usd: 0, sar: 0, aed: 0 };
+
+            if(cart.length > 0) valBox.style.display = 'block';
+            else valBox.style.display = 'none';
+
+            cart.forEach((item, idx) => {
+                // Calculate using the logic saved inside the item (Snapshot logic)
+                const snapshotMulti = ((1 + (item.savedMargin / 100)) / 1.07) * (1 - (item.savedDiscount / 100));
+                
+                const p = (item.pkr / item.bQty) * snapshotMulti * item.qty;
+                const u = (item.usd / item.bQty) * snapshotMulti * item.qty;
+                const s = (item.sar / item.bQty) * snapshotMulti * item.qty;
+                const a = (item.aed / item.bQty) * snapshotMulti * item.qty;
+                
+                sums.pkr += p; sums.usd += u; sums.sar += s; sums.aed += a;
+
+                const displayVal = activeCur === 'PKR' ? Math.round(p).toLocaleString() : item[activeCur.toLowerCase()].toFixed(2);
+                
+                list.innerHTML += `<div class="quote-item">
+                    <div><b>${item.name}</b><br>
+                    <small>Qty: ${item.qty} | Margin: ${item.savedMargin}% | Disc: ${item.savedDiscount}%</small></div>
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <span style="font-weight:900;">${activeCur} ${displayVal}</span>
+                        <button class="btn-remove" onclick="cart.splice(${idx},1);render()">×</button>
+                    </div>
+                </div>`;
+                printList.innerHTML += `<tr><td>${item.name}</td><td>${item.qty}</td><td>${item.savedMargin}%</td><td>${item.savedDiscount}%</td><td>${Math.round(p).toLocaleString()}</td><td>${s.toFixed(2)}</td><td>${a.toFixed(2)}</td></tr>`;
+            });
+
+            // Update Total Valuation Box
+            const mainTotalDisplay = activeCur === 'PKR' ? `PKR ${Math.round(sums.pkr).toLocaleString()}` : `${activeCur} ${sums[activeCur.toLowerCase()].toFixed(2)}`;
+            document.getElementById('mainTotal').innerText = mainTotalDisplay;
+            
+            document.getElementById('subTotals').innerText = `SAR ${sums.sar.toFixed(2)} | AED ${sums.aed.toFixed(2)} | USD ${sums.usd.toFixed(2)}`;
+            
+            document.getElementById('print-totals').innerText = `Grand Total: PKR ${Math.round(sums.pkr).toLocaleString()} | SAR ${sums.sar.toFixed(2)} | AED ${sums.aed.toFixed(2)}`;
+        }
+
+        // --- FINE-GRAINED STAR SYSTEM ---
+        const f = document.getElementById('starField');
+        for(let i=0; i<180; i++) {
+            const s = document.createElement('div'); s.className = 'star';
+            const size = (Math.random() * 1.2 + 0.3) + 'px'; 
+            s.style.width = s.style.height = size;
+            s.style.top = Math.random() * 100 + '%';
+            s.style.left = Math.random() * 100 + '%';
+            s.style.setProperty('--duration', (Math.random() * 4 + 2) + 's');
+            f.appendChild(s);
+        }
+    </script>
+</body>
+</html>
