@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bayut Studios | Price Calculator | Portal</title>
+    <title>Bayut Studios | Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;700;900&family=Inter:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* --- CORE TRANSITIONS & THEME VARIABLES --- */
+        /* --- CORE THEME VARIABLES --- */
         body { 
             transition: background-color 0.4s ease, color 0.4s ease; 
             margin: 0; min-height: 100vh; display: flex; box-sizing: border-box; 
@@ -46,11 +46,14 @@
         
         input, select { background: var(--input-bg); border: 1px solid var(--glass-border); color: var(--text-color); padding: 12px; border-radius: 12px; font-family: inherit; font-size: 0.85rem; outline: none; transition: 0.3s; }
 
-        .theme-toggle { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 14px; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 5px; }
+        .theme-toggle {
+            background: var(--primary); color: white; border: none; padding: 12px; border-radius: 14px; cursor: pointer;
+            font-weight: 800; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 5px;
+        }
         body.dark-mode .theme-toggle { color: black; }
 
         .main-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .header { display: flex; justify-content: space-between; align-items: center; }
         .logo-text { font-size: 2.2rem; font-weight: 900; color: var(--primary); margin: 0; letter-spacing: -1px; }
         
         .btn-download { background: var(--primary); color: white; border: none; padding: 14px 28px; border-radius: 14px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; transition: 0.3s; }
@@ -71,37 +74,22 @@
         }
         .total-val { font-size: 2.5rem; font-weight: 900; color: var(--primary); margin: 0; font-family: 'Inter'; }
 
-        /* --- THE FIXED PRINT ENGINE --- */
-        #print-wrapper { display: none; }
-
+        /* --- RESTORED INVOICE PRINT AREA (FROM OLD VERSION) --- */
+        #invoice-print-area { display: none; }
         @media print {
-            /* Hide the Dashboard completely */
-            body * { visibility: hidden !important; display: none !important; }
-
-            /* Show the Print Wrapper explicitly */
-            #print-wrapper, #print-wrapper * { 
-                visibility: visible !important; 
+            body * { display: none !important; }
+            #invoice-print-area { 
                 display: block !important; 
-                color: #000 !important;
+                background: white !important; 
+                color: black !important; 
+                padding: 40px; 
+                width: 100%;
             }
-
-            #print-wrapper { 
-                position: absolute; left: 0; top: 0; width: 100%; height: auto;
-                background: white !important; padding: 40px !important; box-sizing: border-box;
-            }
-
-            .p-header { border-bottom: 3px solid #37b36f; padding-bottom: 20px; margin-bottom: 30px; display: flex !important; justify-content: space-between !important; }
-            .p-logo { color: #37b36f !important; font-weight: 900 !important; font-size: 24px !important; text-transform: uppercase; margin: 0; }
-            
-            table { visibility: visible !important; display: table !important; width: 100%; border-collapse: collapse; margin-top: 20px; }
-            thead { display: table-header-group !important; }
-            tr { display: table-row !important; }
-            th, td { visibility: visible !important; display: table-cell !important; padding: 12px; border-bottom: 1px solid #eee; text-align: left; font-size: 11px; }
-            th { background: #f8f8f8 !important; border-bottom: 2px solid #37b36f; font-weight: bold; }
-
-            .p-footer { margin-top: 40px; text-align: right !important; border-top: 2px solid #37b36f; padding-top: 20px; }
-            .p-grand { font-size: 22px !important; font-weight: 900 !important; display: block !important; }
-            .p-date { font-size: 10px; color: #666; display: block !important; }
+            #invoice-print-area h1 { color: #37b36f; font-family: 'Montserrat', sans-serif; margin-bottom: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th { text-align: left; background: #f0f0f0 !important; padding: 12px; border-bottom: 2px solid #37b36f; font-size: 10px; -webkit-print-color-adjust: exact; }
+            td { padding: 12px; border-bottom: 1px solid #eee; font-size: 11px; color: black !important; }
+            #print-totals { margin-top: 20px; text-align: right; font-weight: 900; font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -170,32 +158,23 @@
         </div>
     </main>
 
-    <div id="print-wrapper">
-        <div class="p-header">
-            <div>
-                <h1 class="p-logo">Bayut Studios</h1>
-                <p style="margin:5px 0 0 0; font-size:10px; color:#888;">Project Quotation Document</p>
-            </div>
-            <div class="p-date" id="p-date-field"></div>
-        </div>
+    <div id="invoice-print-area">
+        <h1>Bayut Studios Quotation</h1>
         <table>
             <thead>
                 <tr>
-                    <th style="width:40%">Description</th>
+                    <th>Description</th>
                     <th>Qty</th>
                     <th>Margin</th>
                     <th>Disc.</th>
-                    <th>PKR Total</th>
+                    <th>PKR</th>
                     <th>SAR</th>
                     <th>AED</th>
                 </tr>
             </thead>
-            <tbody id="p-rows-fixed"></tbody>
+            <tbody id="print-rows"></tbody>
         </table>
-        <div class="p-footer">
-            <div class="p-grand" id="p-grand-fixed"></div>
-            <div style="font-size:12px; color:#666; margin-top:5px;" id="p-breakdown-fixed"></div>
-        </div>
+        <div id="print-totals"></div>
     </div>
 
     <script>
@@ -254,10 +233,10 @@
 
         function render() {
             const list = document.getElementById('cartList');
-            const pBody = document.getElementById('p-rows-fixed');
+            const printList = document.getElementById('print-rows');
             const valBox = document.getElementById('valuationBox');
             
-            list.innerHTML = ''; pBody.innerHTML = '';
+            list.innerHTML = ''; printList.innerHTML = '';
             let sums = { pkr: 0, sar: 0, aed: 0, usd: 0 };
 
             if(cart.length > 0) valBox.style.display = 'block';
@@ -280,18 +259,23 @@
                     </div>
                 </div>`;
 
-                pBody.innerHTML += `<tr style="visibility:visible !important; display:table-row !important;">
-                    <td>${item.name}</td><td>${item.qty}</td><td>${item.savedMargin}%</td><td>${item.savedDiscount}%</td>
-                    <td>PKR ${Math.round(p).toLocaleString()}</td><td>${s.toFixed(2)}</td><td>${a.toFixed(2)}</td>
+                // RESTORED OLD PRINT ROW LOGIC
+                printList.innerHTML += `<tr>
+                    <td>${item.name}</td>
+                    <td>${item.qty}</td>
+                    <td>${item.savedMargin}%</td>
+                    <td>${item.savedDiscount}%</td>
+                    <td>${Math.round(p).toLocaleString()}</td>
+                    <td>${s.toFixed(2)}</td>
+                    <td>${a.toFixed(2)}</td>
                 </tr>`;
             });
 
             document.getElementById('mainTotal').innerText = activeCur === 'PKR' ? `PKR ${Math.round(sums.pkr).toLocaleString()}` : `${activeCur} ${sums[activeCur.toLowerCase()].toFixed(2)}`;
             document.getElementById('subTotals').innerText = `SAR ${sums.sar.toFixed(2)} | AED ${sums.aed.toFixed(2)} | USD ${sums.usd.toFixed(2)}`;
             
-            document.getElementById('p-grand-fixed').innerText = `Total: PKR ${Math.round(sums.pkr).toLocaleString()}`;
-            document.getElementById('p-breakdown-fixed').innerText = `SAR ${sums.sar.toFixed(2)}  ·  AED ${sums.aed.toFixed(2)}`;
-            document.getElementById('p-date-field').innerText = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            // RESTORED OLD PRINT TOTALS LOGIC
+            document.getElementById('print-totals').innerText = `Grand Total: PKR ${Math.round(sums.pkr).toLocaleString()} | SAR ${sums.sar.toFixed(2)} | AED ${sums.aed.toFixed(2)}`;
         }
 
         const f = document.getElementById('starField');
