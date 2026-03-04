@@ -3,46 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bayut Studios | Price Calculator| Portal</title>
+    <title>Bayut Studios | Price Calculator | Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;700;900&family=Inter:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         /* --- CORE TRANSITIONS & THEME VARIABLES --- */
         body { 
             transition: background-color 0.4s ease, color 0.4s ease; 
-            margin: 0; 
-            min-height: 100vh; 
-            display: flex; 
-            box-sizing: border-box; 
-            gap: 25px; 
-            padding: 25px; 
-            overflow-x: hidden;
+            margin: 0; min-height: 100vh; display: flex; box-sizing: border-box; 
+            gap: 25px; padding: 25px; overflow-x: hidden;
         }
 
         body.dark-mode {
-            --primary: #37b36f;
-            --bg-color: #050505;
-            --panel-bg: rgba(20, 20, 20, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-color: white;
-            --input-bg: rgba(0,0,0,0.6);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Montserrat', sans-serif;
+            --primary: #37b36f; --bg-color: #050505; --panel-bg: rgba(20, 20, 20, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1); --text-color: white; --input-bg: rgba(0,0,0,0.6);
+            background-color: var(--bg-color); color: var(--text-color); font-family: 'Montserrat', sans-serif;
         }
 
         body.light-mode {
-            --primary: #0d9488;
-            --bg-color: #f8fafc;
-            --panel-bg: rgba(255, 255, 255, 0.8);
-            --glass-border: rgba(0, 0, 0, 0.05);
-            --text-color: #0f172a;
-            --input-bg: #ffffff;
+            --primary: #0d9488; --bg-color: #f8fafc; --panel-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.05); --text-color: #0f172a; --input-bg: #ffffff;
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            color: var(--text-color);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-color); font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* --- UI COMPONENTS --- */
+        /* --- DASHBOARD UI --- */
         .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         body.light-mode .stars { display: none; }
         body.dark-mode .stars { display: block; background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%); }
@@ -50,48 +34,19 @@
         @keyframes glisten { 0%, 100% { opacity: 0.1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.2); } }
 
         .sidebar {
-            width: 260px;
-            background: var(--panel-bg);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            border-radius: 30px;
-            height: calc(100vh - 50px);
-            box-sizing: border-box;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+            width: 260px; background: var(--panel-bg); backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border); padding: 30px 20px; display: flex;
+            flex-direction: column; gap: 25px; border-radius: 30px; height: calc(100vh - 50px);
+            box-sizing: border-box; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
         }
 
         .section-title { color: var(--primary); font-size: 0.7rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; border-left: 3px solid var(--primary); padding-left: 10px; }
         .input-group { display: flex; flex-direction: column; gap: 8px; }
         label { font-size: 0.6rem; opacity: 0.6; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         
-        input, select { 
-            background: var(--input-bg); 
-            border: 1px solid var(--glass-border); 
-            color: var(--text-color); 
-            padding: 12px; 
-            border-radius: 12px; 
-            font-family: inherit; 
-            font-size: 0.85rem; 
-            outline: none; 
-            transition: 0.3s; 
-        }
+        input, select { background: var(--input-bg); border: 1px solid var(--glass-border); color: var(--text-color); padding: 12px; border-radius: 12px; font-family: inherit; font-size: 0.85rem; outline: none; transition: 0.3s; }
 
-        .theme-toggle {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 14px;
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
+        .theme-toggle { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 14px; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 5px; }
         body.dark-mode .theme-toggle { color: black; }
 
         .main-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
@@ -107,50 +62,46 @@
         .btn-add { background: var(--text-color); color: var(--bg-color); border: none; padding: 14px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; transition: 0.3s; }
         body.dark-mode .btn-add { background: var(--primary); color: black; }
 
-        .cur-btn { border: 1px solid var(--glass-border); background: transparent; color: var(--text-color); padding: 8px 18px; border-radius: 10px; cursor: pointer; font-size: 0.7rem; font-weight: 900; }
-        .cur-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        body.dark-mode .cur-btn.active { color: black; }
-
         .quote-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 20px; border-radius: 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        body.light-mode .quote-item { background: rgba(255,255,255,0.5); }
-
         .btn-remove { background: #ff4b4b; color: white; border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; font-weight: bold; }
 
         .valuation-card {
             background: linear-gradient(135deg, rgba(55, 179, 111, 0.1) 0%, rgba(0,0,0,0.05) 100%);
-            border: 2px solid var(--primary);
-            padding: 30px;
-            border-radius: 25px;
-            text-align: right;
-            margin-top: 10px;
+            border: 2px solid var(--primary); padding: 30px; border-radius: 25px; text-align: right; margin-top: 10px;
         }
-        .total-val { font-size: 2.5rem; font-weight: 900; font-family: 'Inter'; margin: 0; color: var(--primary); }
-        .sub-total-val { font-size: 1rem; opacity: 0.7; margin-top: 5px; font-weight: 400; }
+        .total-val { font-size: 2.5rem; font-weight: 900; color: var(--primary); margin: 0; font-family: 'Inter'; }
 
-        /* --- THE NEW INVOICE ENGINE --- */
-        #print-container { display: none; }
+        /* --- THE FIXED PRINT ENGINE --- */
+        #print-wrapper { display: none; }
 
         @media print {
-            body * { display: none !important; }
-            #print-container { 
+            /* Hide the Dashboard completely */
+            body * { visibility: hidden !important; display: none !important; }
+
+            /* Show the Print Wrapper explicitly */
+            #print-wrapper, #print-wrapper * { 
+                visibility: visible !important; 
                 display: block !important; 
-                background: white !important; 
-                color: black !important;
-                padding: 40px;
-                width: 100%;
-                font-family: 'Inter', sans-serif;
+                color: #000 !important;
             }
-            .p-header { border-bottom: 3px solid #37b36f; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
-            .p-logo { color: #37b36f; font-weight: 900; font-size: 24px; text-transform: uppercase; margin: 0; }
-            .p-date { font-size: 12px; color: #666; }
+
+            #print-wrapper { 
+                position: absolute; left: 0; top: 0; width: 100%; height: auto;
+                background: white !important; padding: 40px !important; box-sizing: border-box;
+            }
+
+            .p-header { border-bottom: 3px solid #37b36f; padding-bottom: 20px; margin-bottom: 30px; display: flex !important; justify-content: space-between !important; }
+            .p-logo { color: #37b36f !important; font-weight: 900 !important; font-size: 24px !important; text-transform: uppercase; margin: 0; }
             
-            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-            th { text-align: left; background: #f9f9f9; padding: 12px; font-size: 10px; text-transform: uppercase; border-bottom: 1px solid #ddd; }
-            td { padding: 12px; border-bottom: 1px solid #eee; font-size: 11px; color: #333; }
-            
-            .p-total-box { margin-top: 40px; text-align: right; border-top: 2px solid #37b36f; padding-top: 20px; }
-            .p-grand { font-size: 22px; font-weight: 900; color: black; margin-bottom: 5px; }
-            .p-subs { font-size: 12px; color: #666; font-weight: 400; }
+            table { visibility: visible !important; display: table !important; width: 100%; border-collapse: collapse; margin-top: 20px; }
+            thead { display: table-header-group !important; }
+            tr { display: table-row !important; }
+            th, td { visibility: visible !important; display: table-cell !important; padding: 12px; border-bottom: 1px solid #eee; text-align: left; font-size: 11px; }
+            th { background: #f8f8f8 !important; border-bottom: 2px solid #37b36f; font-weight: bold; }
+
+            .p-footer { margin-top: 40px; text-align: right !important; border-top: 2px solid #37b36f; padding-top: 20px; }
+            .p-grand { font-size: 22px !important; font-weight: 900 !important; display: block !important; }
+            .p-date { font-size: 10px; color: #666; display: block !important; }
         }
     </style>
 </head>
@@ -176,7 +127,7 @@
 
     <main class="main-content">
         <div class="header">
-            <h1 class="logo-text">Bayut Studios | Price Calculator</h1>
+            <h1 class="logo-text">Bayut Studios</h1>
             <button class="btn-download" onclick="window.print()">Download PDF</button>
         </div>
 
@@ -214,23 +165,23 @@
             <div id="valuationBox" style="display:none;" class="valuation-card">
                 <div class="section-title" style="margin-bottom: 10px; border:none; padding:0;">Total Project Valuation</div>
                 <p id="mainTotal" class="total-val">PKR 0</p>
-                <p id="subTotals" class="sub-total-val"></p>
+                <p id="subTotals" style="opacity:0.7; font-size:1rem; margin-top:5px;"></p>
             </div>
         </div>
     </main>
 
-    <div id="print-container">
+    <div id="print-wrapper">
         <div class="p-header">
             <div>
-                <h1 class="p-logo">Bayut Studios | Price Calculator</h1>
-                <p style="margin: 5px 0 0 0; font-size: 10px; color: #888;">Professional Project Valuation</p>
+                <h1 class="p-logo">Bayut Studios</h1>
+                <p style="margin:5px 0 0 0; font-size:10px; color:#888;">Project Quotation Document</p>
             </div>
-            <div class="p-date" id="print-date"></div>
+            <div class="p-date" id="p-date-field"></div>
         </div>
         <table>
             <thead>
                 <tr>
-                    <th style="width: 40%;">Description</th>
+                    <th style="width:40%">Description</th>
                     <th>Qty</th>
                     <th>Margin</th>
                     <th>Disc.</th>
@@ -239,11 +190,11 @@
                     <th>AED</th>
                 </tr>
             </thead>
-            <tbody id="print-rows-rebuilt"></tbody>
+            <tbody id="p-rows-fixed"></tbody>
         </table>
-        <div class="p-total-box">
-            <div class="p-grand" id="p-grand-total"></div>
-            <div class="p-subs" id="p-sub-breakdown"></div>
+        <div class="p-footer">
+            <div class="p-grand" id="p-grand-fixed"></div>
+            <div style="font-size:12px; color:#666; margin-top:5px;" id="p-breakdown-fixed"></div>
         </div>
     </div>
 
@@ -296,80 +247,59 @@
             const name = document.getElementById('prodSelect').value;
             const qty = parseInt(document.getElementById('unitInput').value) || 1;
             const item = db.find(i => i.name === name);
-            const currentMargin = parseFloat(document.getElementById('marginInput').value) || 0;
-            const currentDiscount = parseFloat(document.getElementById('discountInput').value) || 0;
-
-            if(item) {
-                cart.push({ ...item, qty, savedMargin: currentMargin, savedDiscount: currentDiscount });
-                render();
-            }
+            const m = parseFloat(document.getElementById('marginInput').value) || 0;
+            const d = parseFloat(document.getElementById('discountInput').value) || 0;
+            if(item) { cart.push({ ...item, qty, savedMargin: m, savedDiscount: d }); render(); }
         }
 
         function render() {
             const list = document.getElementById('cartList');
-            const printBody = document.getElementById('print-rows-rebuilt');
+            const pBody = document.getElementById('p-rows-fixed');
             const valBox = document.getElementById('valuationBox');
             
-            list.innerHTML = ''; 
-            printBody.innerHTML = '';
-            
-            let sums = { pkr: 0, usd: 0, sar: 0, aed: 0 };
+            list.innerHTML = ''; pBody.innerHTML = '';
+            let sums = { pkr: 0, sar: 0, aed: 0, usd: 0 };
 
             if(cart.length > 0) valBox.style.display = 'block';
             else valBox.style.display = 'none';
 
             cart.forEach((item, idx) => {
-                const snapshotMulti = ((1 + (item.savedMargin / 100)) / 1.07) * (1 - (item.savedDiscount / 100));
-                const p = (item.pkr / item.bQty) * snapshotMulti * item.qty;
-                const u = (item.usd / item.bQty) * snapshotMulti * item.qty;
-                const s = (item.sar / item.bQty) * snapshotMulti * item.qty;
-                const a = (item.aed / item.bQty) * snapshotMulti * item.qty;
-                
-                sums.pkr += p; sums.usd += u; sums.sar += s; sums.aed += a;
-                const displayVal = activeCur === 'PKR' ? Math.round(p).toLocaleString() : (sums[activeCur.toLowerCase()] / sums.pkr * p).toFixed(2);
-                
-                // Dashboard Item
+                const multi = ((1 + (item.savedMargin / 100)) / 1.07) * (1 - (item.savedDiscount / 100));
+                const p = (item.pkr / item.bQty) * multi * item.qty;
+                const s = (item.sar / item.bQty) * multi * item.qty;
+                const a = (item.aed / item.bQty) * multi * item.qty;
+                const u = (item.usd / item.bQty) * multi * item.qty;
+                sums.pkr += p; sums.sar += s; sums.aed += a; sums.usd += u;
+
+                const dVal = activeCur === 'PKR' ? Math.round(p).toLocaleString() : (sums[activeCur.toLowerCase()] / sums.pkr * p).toFixed(2);
                 list.innerHTML += `<div class="quote-item">
-                    <div><b>${item.name}</b><br>
-                    <small>Qty: ${item.qty} | Margin: ${item.savedMargin}% | Disc: ${item.savedDiscount}%</small></div>
+                    <div><b>${item.name}</b><br><small>Qty: ${item.qty} | Margin: ${item.savedMargin}%</small></div>
                     <div style="display:flex; align-items:center; gap:15px;">
-                        <span style="font-weight:900;">${activeCur} ${displayVal}</span>
+                        <span style="font-weight:900;">${activeCur} ${dVal}</span>
                         <button class="btn-remove" onclick="cart.splice(${idx},1);render()">×</button>
                     </div>
                 </div>`;
 
-                // Rebuilt Print Row
-                printBody.innerHTML += `<tr>
-                    <td>${item.name}</td>
-                    <td>${item.qty}</td>
-                    <td>${item.savedMargin}%</td>
-                    <td>${item.savedDiscount}%</td>
-                    <td>PKR ${Math.round(p).toLocaleString()}</td>
-                    <td>${s.toFixed(2)}</td>
-                    <td>${a.toFixed(2)}</td>
+                pBody.innerHTML += `<tr style="visibility:visible !important; display:table-row !important;">
+                    <td>${item.name}</td><td>${item.qty}</td><td>${item.savedMargin}%</td><td>${item.savedDiscount}%</td>
+                    <td>PKR ${Math.round(p).toLocaleString()}</td><td>${s.toFixed(2)}</td><td>${a.toFixed(2)}</td>
                 </tr>`;
             });
 
-            // Update Totals
-            const mainTotalDisplay = activeCur === 'PKR' ? `PKR ${Math.round(sums.pkr).toLocaleString()}` : `${activeCur} ${sums[activeCur.toLowerCase()].toFixed(2)}`;
-            document.getElementById('mainTotal').innerText = mainTotalDisplay;
+            document.getElementById('mainTotal').innerText = activeCur === 'PKR' ? `PKR ${Math.round(sums.pkr).toLocaleString()}` : `${activeCur} ${sums[activeCur.toLowerCase()].toFixed(2)}`;
             document.getElementById('subTotals').innerText = `SAR ${sums.sar.toFixed(2)} | AED ${sums.aed.toFixed(2)} | USD ${sums.usd.toFixed(2)}`;
             
-            // Rebuilt Print Totals
-            document.getElementById('p-grand-total').innerText = `Grand Total: PKR ${Math.round(sums.pkr).toLocaleString()}`;
-            document.getElementById('p-sub-breakdown').innerText = `SAR ${sums.sar.toFixed(2)}  ·  AED ${sums.aed.toFixed(2)}  ·  USD ${sums.usd.toFixed(2)}`;
-            document.getElementById('print-date').innerText = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            document.getElementById('p-grand-fixed').innerText = `Total: PKR ${Math.round(sums.pkr).toLocaleString()}`;
+            document.getElementById('p-breakdown-fixed').innerText = `SAR ${sums.sar.toFixed(2)}  ·  AED ${sums.aed.toFixed(2)}`;
+            document.getElementById('p-date-field').innerText = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
         }
 
-        // Star Engine
         const f = document.getElementById('starField');
         for(let i=0; i<180; i++) {
             const s = document.createElement('div'); s.className = 'star';
             const size = (Math.random() * 1.2 + 0.3) + 'px'; 
-            s.style.width = s.style.height = size;
-            s.style.top = Math.random() * 100 + '%';
-            s.style.left = Math.random() * 100 + '%';
-            s.style.setProperty('--duration', (Math.random() * 4 + 2) + 's');
+            s.style.width = s.style.height = size; s.style.top = Math.random() * 100 + '%';
+            s.style.left = Math.random() * 100 + '%'; s.style.setProperty('--duration', (Math.random() * 4 + 2) + 's');
             f.appendChild(s);
         }
     </script>
