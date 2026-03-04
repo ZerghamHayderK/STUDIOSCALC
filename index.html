@@ -133,17 +133,23 @@
         .total-val { font-size: 2.5rem; font-weight: 900; font-family: 'Inter'; margin: 0; color: var(--primary); }
         .sub-total-val { font-size: 1rem; opacity: 0.7; margin-top: 5px; font-weight: 400; }
 
-        /* --- PRINT AREA HIDDEN BY DEFAULT --- */
+        /* --- PRINT AREA --- */
         #invoice-print-area { display: none; }
 
         @media print {
             body * { display: none !important; }
-            #invoice-print-area { display: block !important; background: white !important; color: black !important; padding: 40px; }
-            #invoice-print-area h1 { color: #37b36f; margin-bottom: 20px; }
+            #invoice-print-area { 
+                display: block !important; 
+                background: white !important; 
+                color: black !important; 
+                padding: 40px;
+                width: 100%;
+            }
+            #invoice-print-area h1 { color: #37b36f; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; }
             table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            th { text-align: left; background: #f0f0f0; padding: 12px; border-bottom: 2px solid #37b36f; font-size: 10px; }
+            th { text-align: left; background: #f8f8f8 !important; padding: 12px; border-bottom: 2px solid #37b36f; font-size: 11px; -webkit-print-color-adjust: exact; }
             td { padding: 12px; border-bottom: 1px solid #eee; font-size: 11px; }
-            .print-footer { margin-top: 30px; text-align: right; font-weight: 900; font-size: 1.2rem; }
+            .print-footer { margin-top: 30px; text-align: right; font-weight: 900; font-size: 1.2rem; font-family: 'Inter'; }
         }
     </style>
 </head>
@@ -152,7 +158,6 @@
 
     <aside class="sidebar">
         <button class="theme-toggle" onclick="toggleTheme()">Switch Theme</button>
-        
         <div class="input-group">
             <div class="section-title">Snapshot Rates</div>
             <label>Margin (%)</label>
@@ -238,7 +243,6 @@
 
         let db = [], cart = [], activeCur = 'PKR';
 
-        // Load saved theme on startup
         const savedTheme = localStorage.getItem('theme') || 'dark-mode';
         document.body.className = savedTheme;
 
@@ -320,16 +324,27 @@
                         <button class="btn-remove" onclick="cart.splice(${idx},1);render()">×</button>
                     </div>
                 </div>`;
-                printList.innerHTML += `<tr><td>${item.name}</td><td>${item.qty}</td><td>${item.savedMargin}%</td><td>${item.savedDiscount}%</td><td>${Math.round(p).toLocaleString()}</td><td>${s.toFixed(2)}</td><td>${a.toFixed(2)}</td></tr>`;
+
+                // CRITICAL FIX: Populate the print table row by row
+                printList.innerHTML += `<tr>
+                    <td>${item.name}</td>
+                    <td>${item.qty}</td>
+                    <td>${item.savedMargin}%</td>
+                    <td>${item.savedDiscount}%</td>
+                    <td>${Math.round(p).toLocaleString()}</td>
+                    <td>${s.toFixed(2)}</td>
+                    <td>${a.toFixed(2)}</td>
+                </tr>`;
             });
 
             const mainTotalDisplay = activeCur === 'PKR' ? `PKR ${Math.round(sums.pkr).toLocaleString()}` : `${activeCur} ${sums[activeCur.toLowerCase()].toFixed(2)}`;
             document.getElementById('mainTotal').innerText = mainTotalDisplay;
             document.getElementById('subTotals').innerText = `SAR ${sums.sar.toFixed(2)} | AED ${sums.aed.toFixed(2)} | USD ${sums.usd.toFixed(2)}`;
-            document.getElementById('print-totals').innerText = `Grand Total: PKR ${Math.round(sums.pkr).toLocaleString()} | SAR ${sums.sar.toFixed(2)} | AED ${sums.aed.toFixed(2)}`;
+            
+            // CRITICAL FIX: Update the print footer totals
+            document.getElementById('print-totals').innerText = `Total: PKR ${Math.round(sums.pkr).toLocaleString()} | SAR ${sums.sar.toFixed(2)} | AED ${sums.aed.toFixed(2)}`;
         }
 
-        // Star System Initialization
         const f = document.getElementById('starField');
         for(let i=0; i<180; i++) {
             const s = document.createElement('div'); s.className = 'star';
