@@ -4,141 +4,249 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bayut Studios | Project Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-green: #37b36f;
-            --bg-dark: #050505;
-            --panel-bg: rgba(20, 20, 20, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary-teal: #0d9488;
+            --primary-hover: #0f766e;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent-soft: #f0fdfa;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: white;
+            background-color: var(--bg-light);
+            color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             display: flex;
             min-height: 100vh;
-            overflow-x: hidden;
-            padding: 20px;
+            padding: 24px;
             box-sizing: border-box;
-            gap: 20px;
+            gap: 24px;
         }
 
-        /* --- ULTRA-FINE STAR ENGINE --- */
-        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%); }
-        .star { position: absolute; background: white; border-radius: 50%; opacity: 0; filter: blur(0.2px); animation: glisten var(--duration) infinite ease-in-out; }
-        @keyframes glisten { 0%, 100% { opacity: 0.1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.2); } }
-
-        /* --- NARROW SIDEBAR --- */
+        /* --- CLEAN SIDEBAR --- */
         .sidebar {
-            width: 240px;
-            background: var(--panel-bg);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            padding: 30px 20px;
+            width: 260px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 32px 24px;
             display: flex;
             flex-direction: column;
-            gap: 25px;
-            border-radius: 30px;
-            height: calc(100vh - 40px);
+            gap: 28px;
+            border-radius: 20px;
+            height: calc(100vh - 48px);
             box-sizing: border-box;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 24px;
         }
 
-        .section-title { color: var(--primary-green); font-size: 0.7rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; border-left: 3px solid var(--primary-green); padding-left: 10px; }
+        .section-title { 
+            color: var(--primary-teal); 
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            letter-spacing: 1.5px; 
+            text-transform: uppercase; 
+            margin-bottom: 12px; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
         .input-group { display: flex; flex-direction: column; gap: 8px; }
-        label { font-size: 0.6rem; opacity: 0.6; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        input, select { background: rgba(0,0,0,0.6); border: 1px solid var(--glass-border); color: white; padding: 12px; border-radius: 12px; font-family: inherit; font-size: 0.85rem; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--primary-green); }
+        label { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        input, select { 
+            background: #fff; 
+            border: 1px solid var(--border-color); 
+            color: var(--text-main); 
+            padding: 10px 14px; 
+            border-radius: 10px; 
+            font-family: inherit; 
+            font-size: 0.9rem; 
+            outline: none; 
+            transition: all 0.2s ease; 
+        }
+        
+        input:focus, select:focus { 
+            border-color: var(--primary-teal); 
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        }
 
-        /* --- MAIN CONTENT AREA --- */
-        .main-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        /* --- MAIN CONTENT --- */
+        .main-content { flex: 1; display: flex; flex-direction: column; gap: 24px; }
+        
         .header { display: flex; justify-content: space-between; align-items: center; }
-        .logo-text { font-size: 2.2rem; font-weight: 900; color: var(--primary-green); margin: 0; letter-spacing: -1px; }
-        .btn-download { background: var(--primary-green); color: black; border: none; padding: 14px 28px; border-radius: 14px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; transition: 0.3s; }
+        .logo-text { font-size: 1.8rem; font-weight: 800; color: var(--primary-teal); margin: 0; letter-spacing: -0.5px; }
+        
+        .btn-download { 
+            background: var(--primary-teal); 
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            border-radius: 10px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 0.8rem; 
+            transition: 0.2s; 
+            box-shadow: 0 2px 4px rgba(13, 148, 136, 0.2);
+        }
+        .btn-download:hover { background: var(--primary-hover); transform: translateY(-1px); }
 
-        .card { background: var(--panel-bg); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-radius: 30px; padding: 30px; }
-        .builder-row { display: grid; grid-template-columns: 1.5fr 1.5fr 0.5fr 1fr; gap: 15px; align-items: flex-end; }
-        .btn-add { background: var(--primary-green); color: black; border: none; padding: 14px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; transition: 0.3s; }
+        .card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            padding: 28px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        
+        .builder-row { display: grid; grid-template-columns: 1.5fr 1.5fr 0.5fr 1fr; gap: 20px; align-items: flex-end; }
+        
+        .btn-add { 
+            background: var(--text-main); 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 10px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 0.8rem; 
+            transition: 0.2s; 
+        }
+        .btn-add:hover { background: #000; }
 
         /* --- QUOTE LIST --- */
-        .cur-btn { border: 1px solid var(--glass-border); background: transparent; color: white; padding: 8px 18px; border-radius: 10px; cursor: pointer; font-size: 0.7rem; font-weight: 900; }
-        .cur-btn.active { background: var(--primary-green); color: black; border-color: var(--primary-green); }
-        .quote-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 20px; border-radius: 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .btn-remove { background: #ff4b4b; color: white; border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; font-weight: bold; }
-
-        /* --- VALUATION TOTAL CARD --- */
-        .valuation-card {
-            background: linear-gradient(135deg, rgba(55, 179, 111, 0.2) 0%, rgba(0,0,0,0.4) 100%);
-            border: 2px solid var(--primary-green);
-            padding: 30px;
-            border-radius: 25px;
-            text-align: right;
-            margin-top: 10px;
+        .cur-btn { 
+            border: 1px solid var(--border-color); 
+            background: white; 
+            color: var(--text-muted); 
+            padding: 6px 14px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            transition: 0.2s;
         }
-        .total-val { font-size: 2.5rem; font-weight: 900; font-family: 'Inter'; margin: 0; color: white; }
-        .sub-total-val { font-size: 1rem; opacity: 0.7; margin-top: 5px; font-weight: 400; }
+        .cur-btn.active { 
+            background: var(--accent-soft); 
+            color: var(--primary-teal); 
+            border-color: var(--primary-teal); 
+        }
+
+        .quote-item { 
+            background: white; 
+            border: 1px solid var(--border-color); 
+            padding: 16px 20px; 
+            border-radius: 12px; 
+            margin-bottom: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            transition: transform 0.2s;
+        }
+        .quote-item:hover { border-color: var(--primary-teal); }
+
+        .btn-remove { 
+            background: #fee2e2; 
+            color: #ef4444; 
+            border: none; 
+            width: 28px; 
+            height: 28px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .btn-remove:hover { background: #ef4444; color: white; }
+
+        /* --- VALUATION CARD --- */
+        .valuation-card {
+            background: var(--accent-soft);
+            border: 1px solid var(--primary-teal);
+            padding: 32px;
+            border-radius: 20px;
+            text-align: right;
+        }
+        .total-val { font-size: 2.2rem; font-weight: 800; font-family: 'Inter'; margin: 0; color: var(--primary-teal); }
+        .sub-total-val { font-size: 0.9rem; color: var(--text-muted); margin-top: 8px; font-weight: 500; }
 
         #invoice-print-area { display: none; }
+        
         @media print {
             body * { display: none !important; }
-            #invoice-print-area { display: block !important; background: white !important; color: black !important; padding: 40px; }
-            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            th { text-align: left; background: #f0f0f0; padding: 12px; border-bottom: 2px solid var(--primary-green); font-size: 10px; }
-            td { padding: 12px; border-bottom: 1px solid #eee; font-size: 11px; }
+            #invoice-print-area { display: block !important; padding: 40px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+            th { text-align: left; background: #f8fafc; padding: 12px; border-bottom: 2px solid var(--primary-teal); }
+            td { padding: 12px; border-bottom: 1px solid #eee; }
         }
     </style>
 </head>
 <body>
-    <div class="stars" id="starField"></div>
 
     <aside class="sidebar">
-        <div class="input-group">
-            <div class="section-title">Snapshot Rates</div>
-            <p style="font-size:0.55rem; opacity:0.5; margin-top:-5px;">Rates are locked when item is added.</p>
-            <label>Margin (%)</label>
-            <input type="number" id="marginInput" value="7" step="0.5">
+        <div>
+            <div class="section-title">Controls</div>
+            <div class="input-group" style="margin-bottom: 20px;">
+                <label>Margin (%)</label>
+                <input type="number" id="marginInput" value="7" step="0.5">
+            </div>
+            <div class="input-group">
+                <label>Discount (%)</label>
+                <input type="number" id="discountInput" value="0" step="0.5">
+            </div>
         </div>
-        <div class="input-group">
-            <label>Discount (%)</label>
-            <input type="number" id="discountInput" value="0" step="0.5">
-        </div>
-        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--glass-border);">
-            <div class="section-title">Status</div>
-            <p id="status" style="font-size: 0.6rem; opacity: 0.5;">Connecting...</p>
+        
+        <div style="margin-top: auto;">
+            <div class="section-title">System</div>
+            <p id="status" style="font-size: 0.7rem; color: var(--text-muted); font-weight: 500;">Connecting...</p>
         </div>
     </aside>
 
     <main class="main-content">
         <div class="header">
             <h1 class="logo-text">Bayut Studios</h1>
-            <button class="btn-download" onclick="window.print()">Download PDF</button>
+            <button class="btn-download" onclick="window.print()">Download Quote</button>
         </div>
 
         <div class="card">
-            <div class="section-title" style="margin-bottom: 20px;">Quote Builder</div>
+            <div class="section-title">Quote Builder</div>
             <div class="builder-row">
                 <div class="input-group">
                     <label>Category</label>
-                    <select id="catSelect" onchange="updateProducts()"><option>Syncing...</option></select>
+                    <select id="catSelect" onchange="updateProducts()"><option>Loading...</option></select>
                 </div>
                 <div class="input-group">
                     <label>Product</label>
                     <select id="prodSelect"></select>
                 </div>
                 <div class="input-group">
-                    <label>Units</label>
+                    <label>Qty</label>
                     <input type="number" id="unitInput" value="1" min="1">
                 </div>
-                <button class="btn-add" onclick="addToQuote()">Add to Quote</button>
+                <button class="btn-add" onclick="addToQuote()">Add to Project</button>
             </div>
         </div>
 
         <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <div class="section-title">Quote Summary</div>
-                <div style="display: flex; gap: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <div class="section-title">Items Summary</div>
+                <div style="display: flex; gap: 8px;">
                     <button id="btn-PKR" class="cur-btn active" onclick="setCurrency('PKR')">PKR</button>
                     <button id="btn-USD" class="cur-btn" onclick="setCurrency('USD')">USD</button>
                     <button id="btn-SAR" class="cur-btn" onclick="setCurrency('SAR')">SAR</button>
@@ -147,8 +255,8 @@
             </div>
             <div id="cartList"></div>
 
-            <div id="valuationBox" style="display:none;" class="valuation-card">
-                <div class="section-title" style="margin-bottom: 10px; border:none; padding:0;">Total Project Valuation</div>
+            <div id="valuationBox" style="display:none; margin-top: 24px;" class="valuation-card">
+                <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--text-muted); margin-bottom: 4px;">Grand Total</div>
                 <p id="mainTotal" class="total-val">PKR 0</p>
                 <p id="subTotals" class="sub-total-val"></p>
             </div>
@@ -156,12 +264,12 @@
     </main>
 
     <div id="invoice-print-area">
-        <h1 style="color:#37b36f;">Bayut Studios Quotation</h1>
+        <h1 style="color:#0d9488;">Bayut Studios Quotation</h1>
         <table>
-            <thead><tr><th>Description</th><th>Qty</th><th>Margin</th><th>Disc.</th><th>PKR</th><th>SAR</th><th>AED</th></tr></thead>
+            <thead><tr><th>Item Description</th><th>Qty</th><th>Margin</th><th>Disc.</th><th>PKR Total</th><th>SAR</th><th>AED</th></tr></thead>
             <tbody id="print-rows"></tbody>
         </table>
-        <div id="print-totals" style="margin-top:20px; text-align:right; font-weight:900; font-size:1.2rem;"></div>
+        <div id="print-totals" style="margin-top:30px; text-align:right; font-weight:700; font-size:1.1rem; color:#0d9488;"></div>
     </div>
 
     <script>
@@ -184,7 +292,7 @@
             }).filter(x => x);
             const cats = [...new Set(db.map(i => i.cat))];
             document.getElementById('catSelect').innerHTML = '<option value="">Select Category</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
-            document.getElementById('status').innerText = "Live: Synchronized";
+            document.getElementById('status').innerText = "Status: Synchronized";
         });
 
         function updateProducts() {
@@ -203,18 +311,11 @@
             const name = document.getElementById('prodSelect').value;
             const qty = parseInt(document.getElementById('unitInput').value) || 1;
             const item = db.find(i => i.name === name);
-            
-            // CAPTURE MARGIN AND DISCOUNT AT THIS SPECIFIC MOMENT
             const currentMargin = parseFloat(document.getElementById('marginInput').value) || 0;
             const currentDiscount = parseFloat(document.getElementById('discountInput').value) || 0;
 
             if(item) {
-                cart.push({ 
-                    ...item, 
-                    qty, 
-                    savedMargin: currentMargin, 
-                    savedDiscount: currentDiscount 
-                });
+                cart.push({ ...item, qty, savedMargin: currentMargin, savedDiscount: currentDiscount });
                 render();
             }
         }
@@ -231,9 +332,7 @@
             else valBox.style.display = 'none';
 
             cart.forEach((item, idx) => {
-                // Calculate using the logic saved inside the item (Snapshot logic)
                 const snapshotMulti = ((1 + (item.savedMargin / 100)) / 1.07) * (1 - (item.savedDiscount / 100));
-                
                 const p = (item.pkr / item.bQty) * snapshotMulti * item.qty;
                 const u = (item.usd / item.bQty) * snapshotMulti * item.qty;
                 const s = (item.sar / item.bQty) * snapshotMulti * item.qty;
@@ -241,38 +340,23 @@
                 
                 sums.pkr += p; sums.usd += u; sums.sar += s; sums.aed += a;
 
-                const displayVal = activeCur === 'PKR' ? Math.round(p).toLocaleString() : item[activeCur.toLowerCase()].toFixed(2);
+                const displayVal = activeCur === 'PKR' ? Math.round(p).toLocaleString() : (sums[activeCur.toLowerCase()] / sums.pkr * p).toFixed(2);
                 
                 list.innerHTML += `<div class="quote-item">
-                    <div><b>${item.name}</b><br>
-                    <small>Qty: ${item.qty} | Margin: ${item.savedMargin}% | Disc: ${item.savedDiscount}%</small></div>
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <span style="font-weight:900;">${activeCur} ${displayVal}</span>
+                    <div><span style="font-weight:600; font-size:0.95rem;">${item.name}</span><br>
+                    <small style="color:var(--text-muted)">Qty: ${item.qty} | Margin: ${item.savedMargin}% | Disc: ${item.savedDiscount}%</small></div>
+                    <div style="display:flex; align-items:center; gap:20px;">
+                        <span style="font-weight:800; color:var(--text-main);">${activeCur} ${displayVal}</span>
                         <button class="btn-remove" onclick="cart.splice(${idx},1);render()">×</button>
                     </div>
                 </div>`;
                 printList.innerHTML += `<tr><td>${item.name}</td><td>${item.qty}</td><td>${item.savedMargin}%</td><td>${item.savedDiscount}%</td><td>${Math.round(p).toLocaleString()}</td><td>${s.toFixed(2)}</td><td>${a.toFixed(2)}</td></tr>`;
             });
 
-            // Update Total Valuation Box
             const mainTotalDisplay = activeCur === 'PKR' ? `PKR ${Math.round(sums.pkr).toLocaleString()}` : `${activeCur} ${sums[activeCur.toLowerCase()].toFixed(2)}`;
             document.getElementById('mainTotal').innerText = mainTotalDisplay;
-            
             document.getElementById('subTotals').innerText = `SAR ${sums.sar.toFixed(2)} | AED ${sums.aed.toFixed(2)} | USD ${sums.usd.toFixed(2)}`;
-            
             document.getElementById('print-totals').innerText = `Grand Total: PKR ${Math.round(sums.pkr).toLocaleString()} | SAR ${sums.sar.toFixed(2)} | AED ${sums.aed.toFixed(2)}`;
-        }
-
-        // --- FINE-GRAINED STAR SYSTEM ---
-        const f = document.getElementById('starField');
-        for(let i=0; i<180; i++) {
-            const s = document.createElement('div'); s.className = 'star';
-            const size = (Math.random() * 1.2 + 0.3) + 'px'; 
-            s.style.width = s.style.height = size;
-            s.style.top = Math.random() * 100 + '%';
-            s.style.left = Math.random() * 100 + '%';
-            s.style.setProperty('--duration', (Math.random() * 4 + 2) + 's');
-            f.appendChild(s);
         }
     </script>
 </body>
